@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLEX — The Multi-Purpose Programming Language</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/atom-one-dark.min.css">
+    <style>
+        :root {
+            --primary: #6e40c9;
+            --secondary: #4a6bdf;
+            --accent: #ff5e7d;
+            --dark: #1a1a2e;
+            --light: #f8f9fa;
+            --code-bg: #282c34;
+        }
+        
+        [data-theme="dark"] {
+            --dark: #f8f9fa;
+            --light: #1a1a2e;
+            --code-bg: #0d1117;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            margin: 0;
+            line-height: 1.6;
+            transition: background 0.3s ease;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .logo {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .download-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+        
+        .download-modal.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .modal-content {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--dark);
+        }
+        
+        .file-list {
+            display: grid;
+            gap: 0.5rem;
+        }
+        
+        .file-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 1rem;
+            background: rgba(0, 0, 0, 0.05);
+            border-radius: 6px;
+        }
+        
+        .file-item:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .download-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .theme-toggle {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+        
+        pre {
+            background: var(--code-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        
+        code {
+            font-family: 'Fira Code', monospace;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">FLEX</div>
+            <p class="tagline">The multi-purpose programming language for everything from scripting to systems programming</p>
+            <button id="downloadBtn" class="btn btn-primary">Download FLEX</button>
+        </div>
+    </header>
+    
+    <main class="container">
+        <section style="margin: 4rem 0;">
+            <h2>Getting Started</h2>
+            <p>Run your first FLEX program in seconds:</p>
+            <pre><code>// hello.flex
+println("Hello, World!");
+
+// Variables and functions
+x = 10;
+fnx double(n) {
+    return n * 2;
+}
+
+println(double(x));</code></pre>
+            
+            <h3>Compile and Run</h3>
+            <pre><code># Compile to AST
+./flex.sh hello.flex
+
+# Run the program
+./flex.sh -s hello.flexAT</code></pre>
+        </section>
+    </main>
+    
+    <!-- Download Modal -->
+    <div class="download-modal" id="downloadModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Download FLEX</h3>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <div class="file-list" id="fileList">
+                <!-- Auto-populated by JavaScript -->
+                <p>Loading available versions...</p>
+            </div>
+        </div>
+    </div>
+    
+    <button class="theme-toggle" id="themeToggle">🌓</button>
+    
+    <script>
+        // Theme Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+        
+        // Check for saved theme preference
+        if (localStorage.getItem('theme') === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+        }
+        
+        // Download Modal
+        const downloadBtn = document.getElementById('downloadBtn');
+        const downloadModal = document.getElementById('downloadModal');
+        const closeModal = document.getElementById('closeModal');
+        
+        downloadBtn.addEventListener('click', () => {
+            downloadModal.classList.add('active');
+            loadDownloads();
+        });
+        
+        closeModal.addEventListener('click', () => {
+            downloadModal.classList.remove('active');
+        });
+        
+        // Close modal when clicking outside
+        downloadModal.addEventListener('click', (e) => {
+            if (e.target === downloadModal) {
+                downloadModal.classList.remove('active');
+            }
+        });
+        
+        // Auto-detect ZIP files in flex/ directory
+        function loadDownloads() {
+            fetch('./flex/')
+                .then(response => response.text())
+                .then(html => {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const links = Array.from(doc.querySelectorAll('a[href$=".zip"]'));
+                    
+                    const fileList = document.getElementById('fileList');
+                    fileList.innerHTML = '';
+                    
+                    if (links.length === 0) {
+                        fileList.innerHTML = '<p>No downloads found in the flex/ directory.</p>';
+                        return;
+                    }
+                    
+                    links.forEach(link => {
+                        const fileName = link.getAttribute('href');
+                        const displayName = fileName.replace('.zip', '').replace('flex/', '');
+                        
+                        const fileItem = document.createElement('div');
+                        fileItem.className = 'file-item';
+                        fileItem.innerHTML = `
+                            <span>${displayName}</span>
+                            <a href="./flex/${fileName}" class="download-link">Download</a>
+                        `;
+                        fileList.appendChild(fileItem);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error loading downloads:', error);
+                    document.getElementById('fileList').innerHTML = 
+                        '<p>Error loading available downloads. Check console for details.</p>';
+                });
+        }
+    </script>
+</body>
+</html>
